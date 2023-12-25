@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationRequest;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -51,6 +53,7 @@ public class JourneyViewActivity extends AppCompatActivity {
     private Location busLocation;
     private Point startPoint;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,9 @@ public class JourneyViewActivity extends AppCompatActivity {
                         adapter = new PointsAdapter(points);
                         binding.rvPoints.setAdapter(adapter);
                         startPoint = points.get(0);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragmentContainerView2, JourneyMapsFragment.class, null)
+                                .commit();
                     } else {
 //                    TODO, Handle it here!!
                     }
@@ -284,5 +290,25 @@ public class JourneyViewActivity extends AppCompatActivity {
             journeyPrefs.edit().clear().apply();
             points = null;
         }
+    }
+
+    public DataSchedule getDataSchedule() {
+        return dataSchedule;
+    }
+
+    public SharedPreferences getJourneyPrefs() {
+        return journeyPrefs;
+    }
+
+    public static List<Point> getPoints() {
+        return points;
+    }
+
+    public Location getBusLocation() {
+        return busLocation;
+    }
+
+    public Point getStartPoint() {
+        return startPoint;
     }
 }
