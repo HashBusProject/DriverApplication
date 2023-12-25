@@ -47,6 +47,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         holder.startLocation.setText("Name :" + schedule.getJourney().getName());
         holder.endLocation.setText("end :" + schedule.getJourney().getName());
         holder.waitTime.setText(schedule.getSchedule().getTime().toString());
+        // DO NOT TOUCH IT
         SharedPreferences journeyPrefs = context.getSharedPreferences("journey_prefs", Context.MODE_PRIVATE);
         DataSchedule dataSchedule = new Gson().fromJson(journeyPrefs.getString("journeyStarted", null), DataSchedule.class);
         if (journeyPrefs.getBoolean("started", false)
