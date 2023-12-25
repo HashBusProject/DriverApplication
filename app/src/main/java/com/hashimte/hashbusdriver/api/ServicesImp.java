@@ -63,8 +63,16 @@ public class ServicesImp implements Services {
         return retrofit.create(Services.class).updateNextPointIndexByScheduleId(scheduleId, previousIndex);
     }
 
+    @POST("/Driver/UpdateLocation")
+    public Call<Boolean> updateLocation(
+            @Query("busId") Integer busId,
+            @Query("latitude") Double latitude,
+            @Query("longitude") Double longitude) {
+        return retrofit.create(Services.class).updateLocation(busId, latitude, longitude);
+    }
+
     @POST("/Driver/setScheduleAsFinished")
-    public Call<Boolean> setScheduleAsFinished(@Query("scheduleId") Integer scheduleId){
+    public Call<Boolean> setScheduleAsFinished(@Query("scheduleId") Integer scheduleId) {
         return retrofit.create(Services.class).setScheduleAsFinished(scheduleId);
     }
 

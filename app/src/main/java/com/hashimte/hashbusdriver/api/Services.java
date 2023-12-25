@@ -31,4 +31,11 @@ public interface Services {
             @Query("scheduleId") Integer scheduleId,
             @Query("previousIndex") Integer previousIndex
     );
+
+    @POST("/Driver/UpdateLocation")
+    Call<Boolean> updateLocation(
+            @Query("busId") Integer busId,
+            @Query("latitude") Double latitude,
+            @Query("longitude") Double longitude
+    );
 }

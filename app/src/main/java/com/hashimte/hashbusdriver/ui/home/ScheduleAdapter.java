@@ -50,7 +50,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         SharedPreferences journeyPrefs = context.getSharedPreferences("journey_prefs", Context.MODE_PRIVATE);
         DataSchedule dataSchedule = new Gson().fromJson(journeyPrefs.getString("journeyStarted", null), DataSchedule.class);
         if (journeyPrefs.getBoolean("started", false)
-                && dataSchedule != null
                 && !dataSchedule.getSchedule().getId().equals(schedule.getSchedule().getId())) {
             holder.itemView.setEnabled(false);
         } else {

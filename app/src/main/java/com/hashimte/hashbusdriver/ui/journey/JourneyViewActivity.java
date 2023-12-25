@@ -6,12 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.PermissionInfo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationRequest;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -27,9 +29,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.maps.model.LatLng;
 import com.hashimte.hashbusdriver.R;
+import com.hashimte.hashbusdriver.api.LocationService;
 import com.hashimte.hashbusdriver.api.ServicesImp;
 import com.hashimte.hashbusdriver.databinding.ActivityJourneyViewBinding;
 import com.hashimte.hashbusdriver.map.DirectionsTask;
+import com.hashimte.hashbusdriver.model.Bus;
 import com.hashimte.hashbusdriver.model.DataSchedule;
 import com.hashimte.hashbusdriver.model.Point;
 
@@ -100,6 +104,7 @@ public class JourneyViewActivity extends AppCompatActivity {
     }
 
     private void setContentAsNotStarted() {
+        binding.rvPoints.setAdapter(adapter);
         binding.txtTime.setText(getString(R.string.start_time, dataSchedule.getSchedule().getTime()));
         binding.btnGoTo.setOnClickListener(v -> goToGoogleMaps(0, 0, startPoint.getX(), startPoint.getY()));
         binding.btnStart.setOnClickListener(v -> {
@@ -108,6 +113,8 @@ public class JourneyViewActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
                 return;
             }
+            if (checkSelfPermission(Manifest.permission.FOREGROUND_SERVICE) != PackageManager.PERMISSION_GRANTED)
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 102);
             Log.i("ID ::", dataSchedule.getSchedule().getId().toString());
             ServicesImp.getInstance().updateNextPointIndexByScheduleId(dataSchedule.getSchedule().getId(), 0).enqueue(new Callback<Boolean>() {
                 @Override
@@ -135,7 +142,15 @@ public class JourneyViewActivity extends AppCompatActivity {
         });
     }
 
+
     private void setContentAsStarted() {
+        Intent intent = new Intent(this, LocationService.class);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 102);
+        }
+
+        intent.putExtra("busID", dataSchedule.getSchedule().getBus());
+        startService(intent);
         position = journeyPrefs.getInt("position", 1);
         boolean going = journeyPrefs.getBoolean("going", false);
         DataSchedule journeyStarted = gson.fromJson(
@@ -235,7 +250,7 @@ public class JourneyViewActivity extends AppCompatActivity {
     private void locationUpdate() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 102);
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, new LocationListener() {
             @SuppressLint("StaticFieldLeak")
@@ -252,7 +267,7 @@ public class JourneyViewActivity extends AppCompatActivity {
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (response.isSuccessful() && Boolean.TRUE.equals(response.body())) {
                     journeyPrefs.edit().clear().apply();
-                    points = null;
+//                    points = null;
                     finish();
                 } else {
                     Log.e("onResponse :", response.body().toString());

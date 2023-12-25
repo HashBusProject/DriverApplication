@@ -120,10 +120,17 @@ public class JourneyMapsFragment extends Fragment {
                     latLngs.add(latLng);
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(latLng).title(points.get(i).getPointName());
+                    markerOptions.anchor(0.5F, 0.5F);
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8_bus_stop_40));
                     mMap.addMarker(markerOptions);
                 }
                 latLngs.add(new LatLng(points.get(points.size() - 1).getX(), points.get(points.size() - 1).getY()));
-                mMap.addMarker(new MarkerOptions().position(latLngs.get(latLngs.size() - 1)).title("End Point"));
+                mMap.addMarker(new MarkerOptions()
+                        .position(latLngs.get(latLngs.size() - 1))
+                        .title("End Point")
+                        .anchor(0.1F, 1)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8_flag_30))
+                );
                 MyRoutingListener myRoutingListener = new MyRoutingListener(mMap, 6, getResources());
                 Routing routing = new Routing.Builder()
                         .travelMode(AbstractRouting.TravelMode.DRIVING)
@@ -169,27 +176,27 @@ public class JourneyMapsFragment extends Fragment {
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 
-    private void stopLocationUpdates(){
+    private void stopLocationUpdates() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
     private Circle userLocationAccuracyCircle;
-    private void setBusLocationMarker(Location location){
+
+    private void setBusLocationMarker(Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        if(busLocationMarker == null){
+        if (busLocationMarker == null) {
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             markerOptions.rotation(location.getBearing());
             markerOptions.anchor(0.5F, 0.5F);
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icons8_bus_64));
             busLocationMarker = mMap.addMarker(markerOptions);
-        }
-        else {
+        } else {
             busLocationMarker.setPosition(latLng);
             busLocationMarker.setRotation(location.getBearing());
 
         }
-        if(userLocationAccuracyCircle == null){
+        if (userLocationAccuracyCircle == null) {
             CircleOptions circleOptions = new CircleOptions();
             circleOptions.center(latLng);
             circleOptions.strokeWidth(4);
@@ -197,8 +204,7 @@ public class JourneyMapsFragment extends Fragment {
             circleOptions.fillColor(R.color.BurlyWood);
             circleOptions.radius(location.getAccuracy());
             userLocationAccuracyCircle = mMap.addCircle(circleOptions);
-        }
-        else {
+        } else {
             userLocationAccuracyCircle.setCenter(latLng);
             userLocationAccuracyCircle.setRadius(location.getAccuracy());
         }
