@@ -103,7 +103,7 @@ public class JourneyViewActivity extends AppCompatActivity {
     }
 
     private void setContentAsNotStarted() {
-        binding.rvPoints.setAdapter(new PointsAdapter(points));
+
         binding.txtTime.setText(getString(R.string.start_time, dataSchedule.getSchedule().getTime()));
         binding.btnGoTo.setOnClickListener(v -> goToGoogleMaps(0, 0, startPoint.getX(), startPoint.getY()));
         binding.btnStart.setOnClickListener(v -> {
@@ -143,11 +143,11 @@ public class JourneyViewActivity extends AppCompatActivity {
 
 
     private void setContentAsStarted() {
+        binding.rvPoints.setAdapter(new PointsAdapter(points));
         Intent intent = new Intent(this, LocationService.class);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 102);
         }
-
         intent.putExtra("busID", dataSchedule.getSchedule().getBus());
         startService(intent);
         position = journeyPrefs.getInt("position", 1);
@@ -266,7 +266,7 @@ public class JourneyViewActivity extends AppCompatActivity {
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (response.isSuccessful() && Boolean.TRUE.equals(response.body())) {
                     journeyPrefs.edit().clear().apply();
-//                    points = null;
+                    points = null;
                     finish();
                 } else {
                     Log.e("onResponse :", response.body().toString());
