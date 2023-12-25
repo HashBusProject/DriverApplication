@@ -6,14 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.pm.PermissionInfo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationRequest;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -23,7 +20,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -90,7 +86,7 @@ public class JourneyViewActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<List<Point>> call, Throwable t) {
+                public void onFailure(@NonNull Call<List<Point>> call, @NonNull Throwable t) {
 //                    TODO, Handle it here!!
                 }
             });
@@ -105,7 +101,7 @@ public class JourneyViewActivity extends AppCompatActivity {
     private void setContentAsNotStarted() {
 
         binding.txtTime.setText(getString(R.string.start_time, dataSchedule.getSchedule().getTime()));
-        binding.btnGoTo.setOnClickListener(v -> goToGoogleMaps(0, 0, startPoint.getX(), startPoint.getY()));
+        binding.btnGoTo.setOnClickListener(v -> goToGoogleMaps(startPoint.getX(), startPoint.getY()));
         binding.btnStart.setOnClickListener(v -> {
             if (!LocalTime.now().isAfter(LocalTime.parse(dataSchedule.getSchedule().getTime()))) {
                 Snackbar.make(v, "It's not time for the trip yet.", BaseTransientBottomBar.LENGTH_LONG)
@@ -128,14 +124,15 @@ public class JourneyViewActivity extends AppCompatActivity {
                         setContentAsStarted();
                     } else {
                         // TODO, Handle This
+                        assert response.body() != null;
                         Log.e("onResponse :", response.body().toString());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Boolean> call, Throwable t) {
+                public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
                     // TODO, Handle This
-                    Log.e("onResponse :", t.getMessage());
+                    Log.e("onResponse :", Objects.requireNonNull(t.getMessage()));
                 }
             });
         });
@@ -161,12 +158,12 @@ public class JourneyViewActivity extends AppCompatActivity {
         if (going) {
             binding.btnStart.setText(getString(R.string.arrive_to, nextPoint.getPointName()));
             setEstimatedTimeToNextPoint(new LatLng(nextPoint.getX(), nextPoint.getY()));
-            binding.btnGoTo.setOnClickListener(v -> goToGoogleMaps(0, 0, nextPoint.getX(), nextPoint.getY()));
+            binding.btnGoTo.setOnClickListener(v -> goToGoogleMaps(nextPoint.getX(), nextPoint.getY()));
             binding.btnStart.setOnClickListener(v -> {
                 increasePosition(journeyStarted.getSchedule().getId(), position);
             });
         } else {
-            binding.btnGoTo.setOnClickListener(v -> goToGoogleMaps(0, 0, nextPoint.getX(), nextPoint.getY()));
+            binding.btnGoTo.setOnClickListener(v -> goToGoogleMaps(nextPoint.getX(), nextPoint.getY()));
             binding.btnStart.setText(R.string.go_to_the_next_point);
             binding.btnStart.setOnClickListener(v -> {
                 journeyPrefs.edit()
@@ -194,26 +191,28 @@ public class JourneyViewActivity extends AppCompatActivity {
                             .apply();
                     setContentAsStarted();
                 } else {
+                    assert response.body() != null;
                     Log.e("Value :", response.body().toString());
                     // TODO, Handle This
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                Log.e("onFailure :", t.getMessage());
+            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
+                Log.e("onFailure :", Objects.requireNonNull(t.getMessage()));
                 // TODO, Handle This
             }
         });
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void setEstimatedTimeToNextPoint(LatLng latLng) {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         busLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        new DirectionsTask(new LatLng(busLocation.getLatitude(), busLocation.getLongitude()), latLng) {
+        new DirectionsTask(new LatLng(Objects.requireNonNull(busLocation).getLatitude(), busLocation.getLongitude()), latLng) {
             @Override
             protected void onPostExecute(String time) {
                 super.onPostExecute(time);
@@ -229,7 +228,7 @@ public class JourneyViewActivity extends AppCompatActivity {
     }
 
 
-    private void goToGoogleMaps(double lat1, double lng1, double lat2, double lng2) {
+    private void goToGoogleMaps(double lat2, double lng2) {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
@@ -263,19 +262,20 @@ public class JourneyViewActivity extends AppCompatActivity {
     private void endTrip(Integer id) {
         ServicesImp.getInstance().setScheduleAsFinished(id).enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 if (response.isSuccessful() && Boolean.TRUE.equals(response.body())) {
                     journeyPrefs.edit().clear().apply();
                     points = null;
                     finish();
                 } else {
+                    assert response.body() != null;
                     Log.e("onResponse :", response.body().toString());
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                Log.e("onFailure :", t.getMessage());
+            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
+                Log.e("onFailure :", Objects.requireNonNull(t.getMessage()));
             }
         });
 //        finish();
@@ -284,10 +284,9 @@ public class JourneyViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            this.finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -318,11 +317,4 @@ public class JourneyViewActivity extends AppCompatActivity {
         return points;
     }
 
-    public Location getBusLocation() {
-        return busLocation;
-    }
-
-    public Point getStartPoint() {
-        return startPoint;
-    }
 }
