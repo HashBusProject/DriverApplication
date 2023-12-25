@@ -33,7 +33,6 @@ import com.hashimte.hashbusdriver.api.LocationService;
 import com.hashimte.hashbusdriver.api.ServicesImp;
 import com.hashimte.hashbusdriver.databinding.ActivityJourneyViewBinding;
 import com.hashimte.hashbusdriver.map.DirectionsTask;
-import com.hashimte.hashbusdriver.model.Bus;
 import com.hashimte.hashbusdriver.model.DataSchedule;
 import com.hashimte.hashbusdriver.model.Point;
 
@@ -104,7 +103,7 @@ public class JourneyViewActivity extends AppCompatActivity {
     }
 
     private void setContentAsNotStarted() {
-        binding.rvPoints.setAdapter(adapter);
+        binding.rvPoints.setAdapter(new PointsAdapter(points));
         binding.txtTime.setText(getString(R.string.start_time, dataSchedule.getSchedule().getTime()));
         binding.btnGoTo.setOnClickListener(v -> goToGoogleMaps(0, 0, startPoint.getX(), startPoint.getY()));
         binding.btnStart.setOnClickListener(v -> {
