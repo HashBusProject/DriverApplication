@@ -2,6 +2,9 @@ package com.hashimte.hashbusdriver.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Data;
+
+@Data
 public class DataSchedule {
     @SerializedName("journey")
     private Journey journey;

@@ -2,7 +2,9 @@ package com.hashimte.hashbusdriver.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +22,12 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
-public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder>{
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
 
     private List<DataSchedule> schedules;
     private Context context;
     private Bundle bundle;
+
     public ScheduleAdapter(Context context, List<DataSchedule> schedules) {
         this.schedules = schedules;
         this.context = context;
@@ -41,17 +44,26 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final DataSchedule schedule = schedules.get(position);
-        holder.startLocation.setText("Name :"+schedule.getJourney().getName());
-        holder.endLocation.setText("end :"+ schedule.getJourney().getName());
+        holder.startLocation.setText("Name :" + schedule.getJourney().getName());
+        holder.endLocation.setText("end :" + schedule.getJourney().getName());
         holder.waitTime.setText(schedule.getSchedule().getTime().toString());
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, JourneyViewActivity.class);
-            bundle = new Bundle();
-            bundle.putString("dataSchedule",
-                    new Gson().toJson(schedule));
-            intent.putExtras(bundle);
-            context.startActivity(intent);
-        });
+        SharedPreferences journeyPrefs = context.getSharedPreferences("journey_prefs", Context.MODE_PRIVATE);
+        DataSchedule dataSchedule = new Gson().fromJson(journeyPrefs.getString("journeyStarted", null), DataSchedule.class);
+        if (journeyPrefs.getBoolean("started", false)
+                && dataSchedule != null
+                && !dataSchedule.getSchedule().getId().equals(schedule.getSchedule().getId())) {
+            holder.itemView.setEnabled(false);
+        } else {
+            Log.w("DataSchedule :", schedule.toString());
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, JourneyViewActivity.class);
+                bundle = new Bundle();
+                bundle.putString("dataSchedule",
+                        new Gson().toJson(schedule));
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            });
+        }
     }
 
     @Override

@@ -27,5 +27,8 @@ public interface Services {
     Call<List<Point>> getAllPointsForJourney(@Query("journeyId") Integer journeyId);
 
     @POST("/Driver/UpdateNextPointIndex")
-    Call<Boolean> updateNextPointIndexByScheduleId(@Query("scheduleId") Integer scheduleId, @Query("previousIndex") Integer previousIndex);
+    Call<Boolean> updateNextPointIndexByScheduleId(
+            @Query("scheduleId") Integer scheduleId,
+            @Query("previousIndex") Integer previousIndex
+    );
 }

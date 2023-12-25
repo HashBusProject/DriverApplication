@@ -32,6 +32,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private Gson gson;
+    private Bus bus;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.recycleView.setHasFixedSize(true);
         binding.recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Bus bus = gson.fromJson(getContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        bus = gson.fromJson(getContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
                 .getString("bus", null), Bus.class);
         ServicesImp.getInstance()
                 .getDataSchedulesByBusId(bus.getId())
@@ -59,6 +60,28 @@ public class HomeFragment extends Fragment {
                             binding.recycleView.setAdapter(new ScheduleAdapter(getContext(), response.body()));
                         }
                     }
+
+                    @Override
+                    public void onFailure(Call<List<DataSchedule>> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ServicesImp.getInstance()
+                .getDataSchedulesByBusId(bus.getId())
+                .enqueue(new Callback<List<DataSchedule>>() {
+                    @Override
+                    public void onResponse(Call<List<DataSchedule>> call, Response<List<DataSchedule>> response) {
+                        if (response.isSuccessful()) {
+                            Log.e("Size Data :", "" + response.body().size());
+                            binding.recycleView.setAdapter(new ScheduleAdapter(getContext(), response.body()));
+                        }
+                    }
+
                     @Override
                     public void onFailure(Call<List<DataSchedule>> call, Throwable t) {
 

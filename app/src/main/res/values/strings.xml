@@ -73,5 +73,9 @@
     <string name="confirm_ride">Confirm Ride</string>
     <string name="start_journey">Start Journey</string>
     <string name="start_time">Start At %1$s</string>
-
+    <string name="go_to_start_point">Go to start point</string>
+    <string name="go_to_the_next_point">Go to the Next Point</string>
+    <string name="finish_the_trip">Finish The Trip!</string>
+    <string name="arrive_to">Arrive to %1$s</string>
+    <string name="time_to_arrive_into">Time to arrive into %1$s is %2$s\n</string>
 </resources>

@@ -7,8 +7,9 @@ import java.sql.Time;
 
 import lombok.Data;
 
+@Data
 public class Schedule {
-    @SerializedName("id")
+    @SerializedName("scheduleId")
     private Integer id;
     @SerializedName("journey")
     private Integer journey; // 1 - 9
