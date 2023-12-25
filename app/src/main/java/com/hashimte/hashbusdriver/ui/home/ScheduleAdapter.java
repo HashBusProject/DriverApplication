@@ -76,9 +76,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            startLocation = itemView.findViewById(R.id.startLocation);
-            endLocation = itemView.findViewById(R.id.endLocation);
-            waitTime = itemView.findViewById(R.id.waitTime);
+            //journy name
+            startLocation = itemView.findViewById(R.id.joname);
+            //source point
+            endLocation = itemView.findViewById(R.id.startpoint);
+            //destination point
+            waitTime = itemView.findViewById(R.id.desponit);
         }
     }
 }
