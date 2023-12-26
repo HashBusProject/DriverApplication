@@ -44,9 +44,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final DataSchedule schedule = schedules.get(position);
-        holder.startLocation.setText("Name :" + schedule.getJourney().getName());
-        holder.endLocation.setText("end :" + schedule.getJourney().getName());
-        holder.waitTime.setText(schedule.getSchedule().getTime().toString());
+        holder.journeyName.setText(String.format("Journey %s", schedule.getJourney().getName()));
+        holder.startPoint.setText(String.format("%d", schedule.getJourney().getSourcePoint()));
+        holder.endPoint.setText(String.format("%d", schedule.getJourney().getDestinationPoint()));
+        holder.time.setText(String.format("%s", schedule.getSchedule().getTime()));
         // DO NOT TOUCH IT
         SharedPreferences journeyPrefs = context.getSharedPreferences("journey_prefs", Context.MODE_PRIVATE);
         DataSchedule dataSchedule = new Gson().fromJson(journeyPrefs.getString("journeyStarted", null), DataSchedule.class);
@@ -72,16 +73,17 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        MaterialTextView startLocation, endLocation, waitMinTime, waitTime;
+        MaterialTextView journeyName, startPoint, time, endPoint;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             //journy name
-            startLocation = itemView.findViewById(R.id.joname);
+            journeyName = itemView.findViewById(R.id.joname);
             //source point
-            endLocation = itemView.findViewById(R.id.startpoint);
+            startPoint = itemView.findViewById(R.id.startpoint);
             //destination point
-            waitTime = itemView.findViewById(R.id.desponit);
+            endPoint = itemView.findViewById(R.id.desponit);
+            time = itemView.findViewById(R.id.txt_time);
         }
     }
 }
