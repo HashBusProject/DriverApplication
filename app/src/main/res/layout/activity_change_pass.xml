@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.notifications.ChangePassActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change password"
+            android:layout_gravity="start"
+            android:textSize="20sp"
+            android:textColor="@color/blue_700"
+            android:textStyle="bold"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="6sp"
+            app:passwordToggleDrawable="@drawable/visibility_selector"
+            app:passwordToggleEnabled="true"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/currentPass"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangel"
+                android:elevation="20dp"
+                android:hint="Current password"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:paddingHorizontal="10sp"
+                android:paddingStart="9sp"
+                android:textSize="14sp"
+                app:boxStrokeColor="@color/blue_700" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="6sp"
+            app:passwordToggleDrawable="@drawable/visibility_selector"
+            app:passwordToggleEnabled="true"
+
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/newPass"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangel"
+                android:elevation="20dp"
+                android:hint="New password"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:paddingHorizontal="10sp"
+                android:paddingStart="9sp"
+                android:textSize="14sp"
+                app:boxStrokeColor="@color/blue_700" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="6sp"
+            app:passwordToggleDrawable="@drawable/visibility_selector"
+            app:passwordToggleEnabled="true"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/retypePass"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangel"
+                android:elevation="20dp"
+                android:hint="Retype new password"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:paddingHorizontal="10sp"
+                android:paddingStart="9sp"
+                android:textSize="14sp"
+                app:boxStrokeColor="@color/blue_700" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="330sp"
+        android:scaleType="centerCrop"
+        >
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10sp"
+            android:text="Change password"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerInside"
+            />
+    </LinearLayout>
+
+</LinearLayout>
