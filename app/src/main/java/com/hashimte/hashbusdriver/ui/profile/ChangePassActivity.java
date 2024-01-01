@@ -1,4 +1,4 @@
-package com.hashimte.hashbusdriver.ui.notifications;
+package com.hashimte.hashbusdriver.ui.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,14 +9,14 @@ import com.hashimte.hashbusdriver.R;
 
 import java.util.Objects;
 
-public class ChangeEmailActivity extends AppCompatActivity {
+public class ChangePassActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_email);
+        setContentView(R.layout.activity_change_pass);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Change Email");
+        getSupportActionBar().setTitle("Change Password");
     }
     @Override
     public boolean onOptionsItemSelected(@lombok.NonNull MenuItem item) {

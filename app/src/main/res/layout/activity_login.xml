@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="62dp"
-            android:text="@string/welcome"
+            android:text="@string/welcome_captain"
             android:textColor="@color/blue_700"
             android:textSize="36sp"
             android:textStyle="bold"

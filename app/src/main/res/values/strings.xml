@@ -79,4 +79,6 @@
     <string name="arrive_to">Arrive to %1$s</string>
     <string name="time_to_arrive_into">Time to arrive into %1$s is %2$s\n</string>
     <string name="setting">Setting</string>
+    <string name="welcome_captain">Welcome Captain</string>
+    <string name="profile">Profile</string>
 </resources>
