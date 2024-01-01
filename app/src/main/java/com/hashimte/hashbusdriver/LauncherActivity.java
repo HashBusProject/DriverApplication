@@ -14,11 +14,13 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences appPrefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
-        if(appPrefs.getString("driver", null) == null){
+        if(!appPrefs.contains("driver")){
             startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }
         else {
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.hashimte.hashbusdriver.ui.profile;
 
-import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.hashimte.hashbusdriver.LauncherActivity;
 import com.hashimte.hashbusdriver.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends Fragment {
@@ -31,6 +31,8 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.logout.setOnClickListener(view1 -> {
             getActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE).edit()
+                    .remove("bus")
+                    .remove("driver")
                     .clear()
                     .apply();
             Intent intent = new Intent(getContext(), LauncherActivity.class);

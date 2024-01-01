@@ -1,6 +1,7 @@
 package com.hashimte.hashbusdriver.api;
 
 import com.hashimte.hashbusdriver.model.DataSchedule;
+import com.hashimte.hashbusdriver.model.DriverData;
 import com.hashimte.hashbusdriver.model.Point;
 import com.hashimte.hashbusdriver.model.User;
 
@@ -14,8 +15,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface Services {
-    @POST("/User/Login")
-    Call<User> login(@Body User user);
+    @POST("/Driver/Login")
+    Call<DriverData> login(@Body User user);
 
     @GET("/Driver/GetScheduleData")
     Call<List<DataSchedule>> getDataSchedulesByBusId(@Query("busId") Integer busId);

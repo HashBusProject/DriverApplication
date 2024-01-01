@@ -1,5 +1,6 @@
 package com.hashimte.hashbusdriver.ui.auth;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -16,6 +17,7 @@ import com.hashimte.hashbusdriver.R;
 import com.hashimte.hashbusdriver.api.ServicesImp;
 import com.hashimte.hashbusdriver.databinding.ActivityLoginBinding;
 import com.hashimte.hashbusdriver.model.Bus;
+import com.hashimte.hashbusdriver.model.DriverData;
 import com.hashimte.hashbusdriver.model.User;
 
 import retrofit2.Call;
@@ -35,28 +37,23 @@ public class LoginActivity extends AppCompatActivity {
             ServicesImp authServicesImp = ServicesImp.getInstance();
             User authUser = new User();
             authUser.setUsername(binding.txtInputUsernameOrEmail.getText().toString());
-            authUser.setPassword(binding.forgetPassword.getText().toString());
-            authServicesImp.login(authUser).enqueue(new Callback<User>() {
+            authUser.setPassword(binding.txtInputPassword.getText().toString());
+            authServicesImp.login(authUser).enqueue(new Callback<DriverData>() {
                 @Override
-                public void onResponse(Call<User> call, Response<User> response) {
+                public void onResponse(Call<DriverData> call, Response<DriverData> response) {
+                    Log.e("Code :", authUser.toString() + response.code());
                     if (response.isSuccessful()) {
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finishAffinity();
-                        // TODO, Return a bus with the token here!!!
-                        Bus bus = new Bus();
-                        bus.setDriver(response.body());
-                        bus.setCap(40);
-                        bus.setX(31.9943310);
-                        bus.setY(35.9193310);
-                        bus.setWorking(true);
-                        bus.setId(1);
                         Gson gson = new Gson();
                         getSharedPreferences("app_prefs", MODE_PRIVATE)
                                 .edit()
-                                .putString("driver", gson.toJson(response.body()))
-                                .putString("bus", gson.toJson(bus))
+                                .putString("driver", gson.toJson(response.body().getDriver()))
+                                .putString("bus", gson.toJson(response.body().getBus()))
                                 .apply();
-
+                    } else if (response.code() == 400) {
+                        Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                        binding.loginButton.setEnabled(true);
                     } else {
                         Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
                         Log.e("Error", response.errorBody().toString());
@@ -67,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<User> call, Throwable t) {
+                public void onFailure(@NonNull Call<DriverData> call, @NonNull Throwable t) {
                     Log.e("Error: ", t.getMessage());
                     Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
                     binding.loginButton.setEnabled(true);

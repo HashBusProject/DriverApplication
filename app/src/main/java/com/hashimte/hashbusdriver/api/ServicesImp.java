@@ -2,6 +2,7 @@ package com.hashimte.hashbusdriver.api;
 
 import com.google.gson.Gson;
 import com.hashimte.hashbusdriver.model.DataSchedule;
+import com.hashimte.hashbusdriver.model.DriverData;
 import com.hashimte.hashbusdriver.model.Point;
 import com.hashimte.hashbusdriver.model.User;
 
@@ -40,12 +41,6 @@ public class ServicesImp implements Services {
         return instance;
     }
 
-    @Override
-    @POST("/Driver/Login")
-    public Call<User> login(User user) {
-        return retrofit.create(Services.class).login(user);
-    }
-
     @GET("/Driver/GetScheduleData")
     public Call<List<DataSchedule>> getDataSchedulesByBusId(@Query("busId") Integer busId) {
         return retrofit.create(Services.class).getDataSchedulesByBusId(busId);
@@ -74,6 +69,11 @@ public class ServicesImp implements Services {
     @POST("/Driver/setScheduleAsFinished")
     public Call<Boolean> setScheduleAsFinished(@Query("scheduleId") Integer scheduleId) {
         return retrofit.create(Services.class).setScheduleAsFinished(scheduleId);
+    }
+
+    @POST("/Driver/Login")
+    public Call<DriverData> login(@Body User user){
+        return retrofit.create(Services.class).login(user);
     }
 
 }
