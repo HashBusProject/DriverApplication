@@ -65,7 +65,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_input_username_or_email"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/rectangel"
                     android:elevation="20dp"
                     android:paddingStart="35sp"
@@ -90,7 +90,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_input_password"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/rectangel"
                     android:hint="@string/prompt_password"
                     android:inputType="textPassword"

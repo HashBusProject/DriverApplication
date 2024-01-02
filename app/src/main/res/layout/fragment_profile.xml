@@ -6,49 +6,74 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.profile.ProfileFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5sp"
-        android:layout_marginTop="20sp"
         android:layout_marginHorizontal="6sp"
-        >
+        android:layout_marginTop="20sp"
+        android:layout_marginBottom="5sp"
+        android:orientation="horizontal">
+
         <ImageView
             android:layout_width="80sp"
             android:layout_height="80sp"
-            android:src="@drawable/baseline_person_24"
-            android:layout_marginTop="6sp"
             android:layout_marginStart="6sp"
-            />
+            android:layout_marginTop="6sp"
+            android:src="@drawable/baseline_person_24" />
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="289dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Username"
-                android:textSize="20sp"
-                android:textColor="@color/blue_700"
-                android:textStyle="bold"
-                android:layout_marginTop="20sp"
-                android:layout_marginStart="25sp"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_username"
+                    android:layout_width="122dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25sp"
+                    android:text="@string/username"
+                    android:layout_weight="2"
+                    android:textColor="@color/blue_700"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/baseline_directions_bus_24" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/txt_bus_number"
+                    android:layout_width="66dp"
+                    android:layout_height="wrap_content"
+                    android:text="8"
+                    android:textColor="@color/blue_700"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
             <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
+                android:id="@+id/txt_email"
+                android:layout_width="255dp"
                 android:layout_height="wrap_content"
-                android:text="Email"
-                android:textSize="20sp"
-                android:textColor="@color/blue_700"
-                android:textStyle="bold"
+                android:layout_marginStart="25sp"
                 android:layout_marginTop="2sp"
                 android:layout_marginBottom="5sp"
-                android:layout_marginStart="25sp"/>
+                android:text="Email"
+                android:textColor="@color/blue_700"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,54 +89,53 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_marginTop="3sp"
 
-        android:layout_marginTop="3sp">
+        android:orientation="vertical">
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/changepass"
             android:layout_width="match_parent"
             android:layout_height="50sp"
-            android:text="Change passwod"
-            android:textStyle="bold"
-            android:background="@color/white"
-            android:textColor="@color/blue_700"
             android:layout_marginHorizontal="4sp"
-            android:gravity="start|center_vertical"
-            android:paddingStart="5sp"
+            android:background="@color/white"
             android:drawableEnd="@drawable/baseline_arrow_forward_ios_24_2"
             android:drawablePadding="20sp"
-            />
+            android:gravity="start|center_vertical"
+            android:paddingStart="5sp"
+            android:text="Change passwod"
+            android:textColor="@color/blue_700"
+            android:textStyle="bold" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/changeemail"
             android:layout_width="match_parent"
             android:layout_height="50sp"
-            android:text="Change email"
-            android:background="@color/white"
-            android:textColor="@color/blue_700"
-            android:textStyle="bold"
-            android:layout_marginTop="5sp"
             android:layout_marginHorizontal="4sp"
-            android:gravity="start|center_vertical"
-            android:paddingStart="5sp"
+            android:layout_marginTop="5sp"
+            android:background="@color/white"
             android:drawableEnd="@drawable/baseline_arrow_forward_ios_24_2"
             android:drawablePadding="20sp"
-            />
+            android:gravity="start|center_vertical"
+            android:paddingStart="5sp"
+            android:text="Change email"
+            android:textColor="@color/blue_700"
+            android:textStyle="bold" />
 
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="50sp"
-            android:layout_marginTop="5sp"
-            android:text="Logout"
-            android:textStyle="bold"
-            android:background="@color/white"
-            android:textColor="@color/blue_700"
             android:layout_marginHorizontal="4sp"
-            android:gravity="start|center_vertical"
-            android:paddingStart="5sp"
+            android:layout_marginTop="5sp"
+            android:background="@color/white"
             android:drawableEnd="@drawable/baseline_arrow_forward_ios_24_2"
             android:drawablePadding="20sp"
-            />
+            android:gravity="start|center_vertical"
+            android:paddingStart="5sp"
+            android:text="Logout"
+            android:textColor="@color/blue_700"
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

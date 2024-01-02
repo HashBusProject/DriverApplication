@@ -41,7 +41,6 @@ public class LoginActivity extends AppCompatActivity {
             authServicesImp.login(authUser).enqueue(new Callback<DriverData>() {
                 @Override
                 public void onResponse(Call<DriverData> call, Response<DriverData> response) {
-                    Log.e("Code :", authUser.toString() + response.code());
                     if (response.isSuccessful()) {
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finishAffinity();
@@ -52,7 +51,9 @@ public class LoginActivity extends AppCompatActivity {
                                 .putString("bus", gson.toJson(response.body().getBus()))
                                 .apply();
                     } else if (response.code() == 400) {
-                        Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, response.headers().get("message"), Toast.LENGTH_SHORT).show();
+                        binding.txtInputUsernameOrEmail.setText(null);
+                        binding.txtInputPassword.setText(null);
                         binding.loginButton.setEnabled(true);
                     } else {
                         Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
@@ -65,12 +66,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(@NonNull Call<DriverData> call, @NonNull Throwable t) {
-                    Log.e("Error: ", t.getMessage());
-                    Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
                     binding.loginButton.setEnabled(true);
                 }
             });
-
         });
     }
 }
