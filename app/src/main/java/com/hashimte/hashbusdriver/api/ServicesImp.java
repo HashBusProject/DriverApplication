@@ -1,6 +1,7 @@
 package com.hashimte.hashbusdriver.api;
 
 import com.google.gson.Gson;
+import com.hashimte.hashbusdriver.model.ChangePassword;
 import com.hashimte.hashbusdriver.model.DataSchedule;
 import com.hashimte.hashbusdriver.model.DriverData;
 import com.hashimte.hashbusdriver.model.Point;
@@ -19,7 +20,7 @@ import retrofit2.http.Query;
 
 public class ServicesImp implements Services {
 
-    private final static String HTTPS = "http://192.168.1.28:8080";
+    private final static String HTTPS = "http://localhost:8080";
     private final static String HTTPS1 = "https://global-memento-407716.uc.r.appspot.com/";
 
     private final static ServicesImp instance = new ServicesImp();
@@ -74,6 +75,16 @@ public class ServicesImp implements Services {
     @POST("/Driver/Login")
     public Call<DriverData> login(@Body User user){
         return retrofit.create(Services.class).login(user);
+    }
+
+    @PUT("/Driver/ChangePassword")
+    public Call<Boolean> changePassword(@Body ChangePassword changePassword) {
+        return retrofit.create(Services.class).changePassword(changePassword);
+    }
+
+    @PUT("Driver/ChangeEmail")
+    public Call<Boolean> changeEmail(@Body User user) {
+        return retrofit.create(Services.class).changeEmail(user);
     }
 
 }

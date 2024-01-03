@@ -1,5 +1,6 @@
 package com.hashimte.hashbusdriver.api;
 
+import com.hashimte.hashbusdriver.model.ChangePassword;
 import com.hashimte.hashbusdriver.model.DataSchedule;
 import com.hashimte.hashbusdriver.model.DriverData;
 import com.hashimte.hashbusdriver.model.Point;
@@ -39,4 +40,10 @@ public interface Services {
             @Query("latitude") Double latitude,
             @Query("longitude") Double longitude
     );
+
+    @PUT("/Driver/ChangePassword")
+    Call<Boolean> changePassword(@Body ChangePassword changePassword);
+
+    @PUT("/Driver/ChangeEmail")
+    Call<Boolean> changeEmail(@Body User user);
 }

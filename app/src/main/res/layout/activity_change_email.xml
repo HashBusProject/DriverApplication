@@ -27,31 +27,6 @@
             android:textStyle="bold"
             />
 
-        <com.google.android.material.textfield.TextInputLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginHorizontal="6sp"
-
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/currentEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rectangel"
-                android:elevation="20dp"
-                android:hint="Current email address"
-                android:inputType="textEmailAddress|textPersonName"
-                android:lines="1"
-                android:paddingHorizontal="10sp"
-                android:paddingStart="9sp"
-                android:textSize="14sp"
-
-                app:boxStrokeColor="@color/blue_700" />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
 
@@ -115,6 +90,7 @@
         android:scaleType="centerCrop"
         >
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_change_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10sp"
